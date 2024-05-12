@@ -1,6 +1,8 @@
 import oci
 import pymysql 
 from datetime import datetime, timedelta
+import details
+import database_password
 # Set up configuration
 # config = oci.config.from_file() # Reads the default configuration file
 
@@ -11,6 +13,7 @@ from datetime import datetime, timedelta
 def get_subnet_details():
     subnet_list=[]
     try:
+        details.logger.info("start fetching details from cmdb_ci_cloud_subnet")
         signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
         # subnet_client = oci.core.VirtualNetworkClient({}, signer=signer)
        
@@ -66,7 +69,7 @@ def insert_subnet(subnet_list):
     db_host="10.0.1.56"
     # db_port=3306
     db_user="admin"
-    db_pass="AdminAdmin@123"
+    db_pass=database_password.get_secret_from_vault()
     db_name="oci"
     try:
         connection=pymysql.connect(host=db_host,user=db_user,password=db_pass,database=db_name,cursorclass=pymysql.cursors.DictCursor)
