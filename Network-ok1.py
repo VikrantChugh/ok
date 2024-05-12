@@ -88,13 +88,13 @@ def insert_network_detail_into_db(network_list):
         cursor.execute(create_table)
     
         
-        for iteam in network_list:
+        for item in network_list:
             insert_query = """
                 INSERT INTO cmdb_ci_network(Name,State,Object_id,Cidr,Domain_name,Account_id,Datacenter,Tags) 
                 values(%s,%s,%s,%s,%s,%s,%s,%s);
             """
             try:
-                cursor.execute(insert_query,(iteam['Display_name'],iteam['State'],iteam['Id'],iteam['Cidr_block'],iteam['Domain_name'],iteam['Account_id'],iteam['Datacenter'],iteam['Tags']))
+                cursor.execute(insert_query,(item['Display_name'],item['State'],item['Id'],item['Cidr_block'],item['Domain_name'],item['Account_id'],item['Datacenter'],item['Tags']))
                 
             except pymysql.Error as e:
                 print(f"Error: {e}")
