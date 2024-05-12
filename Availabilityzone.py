@@ -13,11 +13,11 @@ def get_availability_zone_details():
         # Initialize the IdentityClient to fetch service account details
         identity_client = oci.identity.IdentityClient({}, signer=signer)
         subscribed_regions = identity_client.list_region_subscriptions(signer.tenancy_id).data
-        compartments = identity_client.list_compartments(signer.tenancy_id)
+        compartments = identity_client.list_compartments(signer.tenancy_id,lifecycle_state='ACTIVE')
         region_list=[reg.region_name for reg in subscribed_regions]
         
         for compartment in compartments.data:
-            if compartment.lifecycle_state == "ACTIVE":
+            # if compartment.lifecycle_state == "ACTIVE":
                 for regions in region_list:
                     signer.region=regions
                     identity_client = oci.identity.IdentityClient({}, signer=signer)      
