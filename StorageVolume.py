@@ -1,6 +1,7 @@
 import oci
 import pymysql 
 from datetime import datetime, timedelta
+import details
 import database_password
 
 def get_storage_volume_details():
@@ -8,6 +9,7 @@ def get_storage_volume_details():
     Vm_object_id=' ' 
     Availability_Zone_objectid=' '
     try:
+        details.logger.info("start fetching details from cmdb_ci_storage_volume")
         signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
         identity_client = oci.identity.IdentityClient({}, signer=signer)
         compartments = identity_client.list_compartments(signer.tenancy_id)
