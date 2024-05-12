@@ -14,7 +14,7 @@ def get_virtual_machine_details():
 
         identity_client = oci.identity.IdentityClient({}, signer=signer)
 
-        compartments = identity_client.list_compartments(signer.tenancy_id)
+        compartments = identity_client.list_compartments(signer.tenancy_id,lifecycle_state='ACTIVE')
         # Use Instance Principals Security Token Signer for authentication
         subscribed_regions = identity_client.list_region_subscriptions(signer.tenancy_id).data        
         region_list=[reg.region_name for reg in subscribed_regions]
@@ -22,7 +22,7 @@ def get_virtual_machine_details():
         
         # Loop through each compartment to get VM details
         for compartment in compartments.data:
-            if compartment.lifecycle_state == "ACTIVE":  
+            # if compartment.lifecycle_state == "ACTIVE":  
                 try:
                     for regions in region_list:
                         signer.region=regions
@@ -47,7 +47,6 @@ def get_virtual_machine_details():
                             list_subnet = compute_client.list_vnic_attachments(compartment.id,instance_id=instance.id) 
                             # print(list_subnet.data) 
                             check=0
-                            #check is used to look and avoid duplicate but can differentiaite using vnic
                             for m in list_subnet.data: 
                                 if check==1:
                                     break
