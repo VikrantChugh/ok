@@ -17,7 +17,7 @@ def get_network_details():
         region_list=[reg.region_name for reg in subscribed_regions]        
         
         for compartment in compartments.data:
-            # if compartment.lifecycle_state == "ACTIVE":  
+             
                 try: 
                     for regions in region_list:
                         signer.region=regions
@@ -47,8 +47,7 @@ def get_network_details():
 
 
 def insert_network_detail_into_db(network_list):
-    db_host="10.0.1.56"
-    # db_port=3306
+    db_host="10.0.1.56"    
     db_user="admin"
     db_pass=database_password.get_secret_from_vault()
     db_name="oci"
