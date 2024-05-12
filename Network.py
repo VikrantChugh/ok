@@ -10,14 +10,14 @@ def get_network_details():
     try:       
         signer = oci.auth.signers.InstancePrincipalsSecurityTokenSigner()
         identity_client = oci.identity.IdentityClient({}, signer=signer)
-        compartments = identity_client.list_compartments(signer.tenancy_id)
+        compartments = identity_client.list_compartments(signer.tenancy_id,lifecycle_state='ACTIVE')
         
         subscribed_regions = identity_client.list_region_subscriptions(signer.tenancy_id).data
         
         region_list=[reg.region_name for reg in subscribed_regions]        
         
         for compartment in compartments.data:
-            if compartment.lifecycle_state == "ACTIVE":  
+            # if compartment.lifecycle_state == "ACTIVE":  
                 try: 
                     for regions in region_list:
                         signer.region=regions
