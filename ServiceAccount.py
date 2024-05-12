@@ -33,7 +33,7 @@ def get_service_account_details():
         })
         
         # Get the list of compartments
-        compartments = identity_client.list_compartments(signer.tenancy_id)
+        compartments = identity_client.list_compartments(signer.tenancy_id,lifecycle_state='ACTIVE')
         
         # Iterate through compartments
         for compartment in compartments.data:  
@@ -45,18 +45,18 @@ def get_service_account_details():
             master_account = "Yes" if compartment_id == signer.tenancy_id else "No"
 
             # Check if compartment is active
-            if compartment_response.get('_lifecycle_state', ' ') == "ACTIVE": 
+            # if compartment_response.get('_lifecycle_state', ' ') == "ACTIVE": 
                 # Append compartment details to account_list
-                account_list.append(
-                    {
-                        'Name': compartment_response.get('_name', ' '),
-                        'Account_id': compartment_response.get('_id', ' '),
-                        'Object_id':  compartment_response.get('_name', ' '),
-                        'Organization_id': tenancy_response.get('_id',' '),
-                        'Is_master_account': master_account ,
-                        'Tags': str(compartment_response.get('_defined_tags',' ').get('Oracle-Tags',' '))
-                    }
-                )
+            account_list.append(
+                {
+                    'Name': compartment_response.get('_name', ' '),
+                    'Account_id': compartment_response.get('_id', ' '),
+                    'Object_id':  compartment_response.get('_name', ' '),
+                    'Organization_id': tenancy_response.get('_id',' '),
+                    'Is_master_account': master_account ,
+                    'Tags': str(compartment_response.get('_defined_tags',' ').get('Oracle-Tags',' '))
+                }
+            )
         # Insert service account details into the database
         insert_service_account_details_into_database(account_list)
     except oci.exceptions.ServiceError as e:
