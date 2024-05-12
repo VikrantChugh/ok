@@ -30,7 +30,7 @@ def get_virtual_machine_details():
                         # Get list of instances (VMs) in the compartment
                         identity_client = oci.identity.IdentityClient({}, signer=signer)      
                         # Initialize the availability_domains to fetch zone details
-                        compartment_id=signer.tenancy_id
+                        compartment_id=compartment.id
                         # compartments = identity_client.list_compartments(signer.tenancy_id)
                         
                         availability_domains = identity_client.list_availability_domains(compartment_id).data
