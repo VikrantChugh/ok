@@ -51,7 +51,7 @@ def get_service_account_details():
                 {
                     'Name': compartment_response.get('_name', ' '),
                     'Account_id': compartment_response.get('_id', ' '),
-                    'Object_id':  compartment_response.get('_name', ' '),
+                    'Object_id':  compartment_response.get('_id', ' '),
                     'Organization_id': tenancy_response.get('_id',' '),
                     'Is_master_account': master_account ,
                     'Tags': str(compartment_response.get('_defined_tags',' ').get('Oracle-Tags',' '))
