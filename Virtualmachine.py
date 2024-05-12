@@ -47,6 +47,7 @@ def get_virtual_machine_details():
                             list_subnet = compute_client.list_vnic_attachments(compartment.id,instance_id=instance.id) 
                             # print(list_subnet.data) 
                             check=0
+                            #check is used to look and avoid duplicate but can differentiaite using vnic
                             for m in list_subnet.data: 
                                 if check==1:
                                     break
